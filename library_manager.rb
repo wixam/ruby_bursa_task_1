@@ -130,8 +130,15 @@ replace = {
   # Возвращаемое значение 
   # - Пеня в центах или 0 при условии что читатель укладывается в срок здачи.
   def penalty_to_finish price, issue_datetime, pages_quantity, current_page, reading_speed
-    # решение пишем тут
-    penalty_hours = price * 0.001
+    
+    # cрасчитываем дату когда закончит читать
+    end_datetime=(DateTime.now.new_offset(0) + ((pages_quantity - current_page) / reading_speed) / 24.0) 
+    overtime = (end_datetime - DateTime.now.new_offset(0))
+
+
+    end_datetime > issue_datetime ? penalty(price, issue_datetime - overtime) : 0
+
+    #binding.pry
 
   
 
